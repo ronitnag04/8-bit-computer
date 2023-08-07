@@ -20,7 +20,7 @@
 #define EO  0b0000000000000011
 #define AO  0b0000000000000100
 #define CO  0b0000000000000101
-#define MCR 0b0000000000000110
+#define UO0 0b0000000000000110
 
 #define II  0b0000000000001000
 #define RI  0b0000000000010000
@@ -31,10 +31,10 @@
 #define SU  0b0000001000000000
 #define AI  0b0000010000000000
 #define CE  0b0000100000000000
-#define JMP 0b0001000000000000
+#define CI  0b0001000000000000
 #define FI  0b0010000000000000
-#define UN0 0b0100000000000000
-#define UN1 0b1000000000000000
+#define MCR 0b0100000000000000
+#define UC0 0b1000000000000000
 
 void setAddress(int address, bool outputEnable) {
   shiftOut(SHIFT_DATA, SHIFT_CLK, MSBFIRST, address >> 8 | (outputEnable ? 0x00 : 0x80));
@@ -112,20 +112,20 @@ bool left_chip;
 uint16_t data[] = {
   CO|MI, RO|II|CE, MCR, DFT, DFT, DFT, DFT, DFT,           // NOP 0000
   CO|MI, RO|II|CE, IO|MI, RO|AI, MCR, DFT, DFT, DFT,       // LDA 0001
-  CO|MI, RO|II|CE, IO|MI, RO|BI, EO|AI, MCR, DFT, DFT,     // ADD 0010
-  CO|MI, RO|II|CE, MCR, DFT, DFT, DFT, DFT, DFT,           //     0011
-  CO|MI, RO|II|CE, MCR, DFT, DFT, DFT, DFT, DFT,           //     0100
-  CO|MI, RO|II|CE, MCR, DFT, DFT, DFT, DFT, DFT,           //     0101
-  CO|MI, RO|II|CE, MCR, DFT, DFT, DFT, DFT, DFT,           //     0110
-  CO|MI, RO|II|CE, MCR, DFT, DFT, DFT, DFT, DFT,           //     0111
+  CO|MI, RO|II|CE, IO|MI, RO|BI, MCR, DFT, DFT, DFT,       // LDB 0010
+  CO|MI, RO|II|CE, EO|AI, MCR, DFT, DFT, DFT, DFT,         // ADD 0011
+  CO|MI, RO|II|CE, SU|EO|AI, MCR, DFT, DFT, DFT, DFT,      // SUB 0100
+  CO|MI, RO|II|CE, IO|MI, AO|RI, MCR, DFT, DFT, DFT,       // STA 0101
+  CO|MI, RO|II|CE, IO|AI, MCR, DFT, DFT, DFT, DFT,         // LDI 0110
+  CO|MI, RO|II|CE, IO|CI, MCR, DFT, DFT, DFT, DFT,         // JMP 0111
   CO|MI, RO|II|CE, MCR, DFT, DFT, DFT, DFT, DFT,           //     1000
   CO|MI, RO|II|CE, MCR, DFT, DFT, DFT, DFT, DFT,           //     1001
   CO|MI, RO|II|CE, MCR, DFT, DFT, DFT, DFT, DFT,           //     1010
   CO|MI, RO|II|CE, MCR, DFT, DFT, DFT, DFT, DFT,           //     1011
   CO|MI, RO|II|CE, MCR, DFT, DFT, DFT, DFT, DFT,           //     1100
   CO|MI, RO|II|CE, MCR, DFT, DFT, DFT, DFT, DFT,           //     1101
-  CO|MI, RO|II|CE, AO|OI, MCR, DFT, DFT, DFT, DFT,         // OUT 1110
-  CO|MI, RO|II|CE, HLT, DFT, DFT, DFT, DFT, DFT,           // HLT 1111
+  CO|MI, RO|II|CE, IO|MI, RO|OI, MCR, DFT, DFT, DFT,       // OUT 1110
+  CO|MI, RO|II|CE, HLT, MCR, DFT, DFT, DFT, DFT,           // HLT 1111
 };
 
 
@@ -144,20 +144,25 @@ void setup() {
 
   Serial.begin(57600);
   
-  eraseEEPROM();
+  // eraseEEPROM();
 
-  Serial.print("Programming EEPROM");
+  if (left_chip) {
+    Serial.print("Programming Left EEPROM");
+  } else {
+    Serial.print("Programming Right EEPROM");
+  }
   for (int address = 0; address < sizeof(data)/sizeof(data[0]); address += 1) {
       if (left_chip) {
         writeEEPROM(address, data[address] >> 8);
-    } else {
+      } else {
         writeEEPROM(address, data[address]);
-    }
+      }
 
     if (address % 64 == 0) {
       Serial.print(".");
     }
   }
+  Serial.println();
 
   printContents();
   

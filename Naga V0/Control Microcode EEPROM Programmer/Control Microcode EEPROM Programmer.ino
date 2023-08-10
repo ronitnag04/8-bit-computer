@@ -125,7 +125,7 @@ uint16_t data[] = {
   CO|MI, RO|II|CE, MCR, DFT, DFT, DFT, DFT, DFT,           //     1100
   CO|MI, RO|II|CE, MCR, DFT, DFT, DFT, DFT, DFT,           //     1101
   CO|MI, RO|II|CE, IO|MI, RO|OI, MCR, DFT, DFT, DFT,       // OUT 1110
-  CO|MI, RO|II|CE, HLT, MCR, DFT, DFT, DFT, DFT,           // HLT 1111
+  CO|MI, RO|II|CE, HLT|DFT, MCR, DFT, DFT, DFT, DFT,           // HLT 1111
 };
 
 

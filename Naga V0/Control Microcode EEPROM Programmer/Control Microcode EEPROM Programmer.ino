@@ -179,7 +179,8 @@ void setup() {
     int opcode = (address & 0b00011111000) >> 3;
     int step =   (address & 0b00000000111);
       
-    uint16_t controlWord = code[opcode][step];
+    uint16_t controlWord = pgm_read_word_near(&(code[opcode][step]));
+    
     if (opcode == 0b01000) {
       if (flags == FLAGS_Z1N0C0 ||
           flags == FLAGS_Z1N0C1 ||

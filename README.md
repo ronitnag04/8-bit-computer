@@ -21,3 +21,4 @@ Here are some potential improvements:
 I can use these to expand the memory register and upgrade the RAM to an 8-bit address and 256 x 8 chip.  I can use the address line on the EEPROMS to expand to 16 -> 32 opcodes or 8 -> 16 max microcode steps. 
 
 ## Naga V1 Processor design:
+![Naga V1 Top Design](https://github.com/ronitnag04/8-bit-computer/blob/main/Naga%20V1/Naga%20V1-01.jpg)

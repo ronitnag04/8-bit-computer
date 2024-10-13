@@ -2,7 +2,7 @@
 Hi, my name is Ronit Nagarapu, and this is a repository containing my 8-bit breadboard computer. This was inspired by Ben Eater's [8-bit computer open-source project](https://eater.net/8bit/). Naga V0 is my version of the basic 8-bit computer, while Naga V1 is my design for an advanced 8-bit computer modeled after the functionality of the Intel 6502 processor.
 
 ## Naga V0 Completed Processor
-Here is a demo of the 8-bit processor counting up and down by counts of 4, switching at the bounds of 0 and 255 when it detects the zero flag. 
+Here is a demo of the 8-bit processor counting up and down by counts of 4, switching at the bounds of 0 and 255 when it detects the zero flag. Click on the picture below to watch the video.
 
 [![Demo](https://img.youtube.com/vi/K0oQ7QJAWTM/0.jpg)](https://www.youtube.com/watch?v=K0oQ7QJAWTM)
 
